@@ -1,0 +1,10 @@
+# Core dependencies
+langgraph>=0.0.20
+langchain>=0.1.0
+langchain-anthropic>=0.1.0
+langchain-openai>=0.1.0
+python-dotenv>=1.0.0
+
+# Optional dependencies for development
+black>=23.0.0
+pylint>=2.17.0

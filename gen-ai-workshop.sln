@@ -1,0 +1,59 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{FA8A28C8-4B59-8028-2ACF-626D05B08DB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hello World", "Hello World", "{56698536-65DE-144F-112D-D427A7598595}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openai-sdk-dotnet", "Demos\Hello World\openai-sdk-dotnet\openai-sdk-dotnet.csproj", "{48CBC94D-A680-5966-2356-7C83B1EA691C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Function Calling", "Function Calling", "{0074AA3A-7543-C1C9-225B-E6C2344582D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hello-function-calling", "Demos\Function Calling\hello-function-calling\hello-function-calling.csproj", "{F4B78CF0-B3E7-3633-7BF8-21986D157C25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolCallingSample", "Demos\Function Calling\tool_function-calling-sk\ToolCallingSample.csproj", "{07488F12-F3A0-7A6A-766B-02BFBBA0A4B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReAct", "ReAct", "{6717EFB0-B310-C61B-083E-4EE8E5B43DB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReActLLMAgent", "Demos\ReAct\ReActLLMAgent\ReActLLMAgent.csproj", "{9204E029-CA80-5DFA-240E-B0D852B1E167}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48CBC94D-A680-5966-2356-7C83B1EA691C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48CBC94D-A680-5966-2356-7C83B1EA691C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48CBC94D-A680-5966-2356-7C83B1EA691C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48CBC94D-A680-5966-2356-7C83B1EA691C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B78CF0-B3E7-3633-7BF8-21986D157C25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B78CF0-B3E7-3633-7BF8-21986D157C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B78CF0-B3E7-3633-7BF8-21986D157C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B78CF0-B3E7-3633-7BF8-21986D157C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07488F12-F3A0-7A6A-766B-02BFBBA0A4B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07488F12-F3A0-7A6A-766B-02BFBBA0A4B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07488F12-F3A0-7A6A-766B-02BFBBA0A4B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07488F12-F3A0-7A6A-766B-02BFBBA0A4B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9204E029-CA80-5DFA-240E-B0D852B1E167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9204E029-CA80-5DFA-240E-B0D852B1E167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9204E029-CA80-5DFA-240E-B0D852B1E167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9204E029-CA80-5DFA-240E-B0D852B1E167}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56698536-65DE-144F-112D-D427A7598595} = {FA8A28C8-4B59-8028-2ACF-626D05B08DB7}
+		{48CBC94D-A680-5966-2356-7C83B1EA691C} = {56698536-65DE-144F-112D-D427A7598595}
+		{0074AA3A-7543-C1C9-225B-E6C2344582D5} = {FA8A28C8-4B59-8028-2ACF-626D05B08DB7}
+		{F4B78CF0-B3E7-3633-7BF8-21986D157C25} = {0074AA3A-7543-C1C9-225B-E6C2344582D5}
+		{07488F12-F3A0-7A6A-766B-02BFBBA0A4B4} = {0074AA3A-7543-C1C9-225B-E6C2344582D5}
+		{6717EFB0-B310-C61B-083E-4EE8E5B43DB4} = {FA8A28C8-4B59-8028-2ACF-626D05B08DB7}
+		{9204E029-CA80-5DFA-240E-B0D852B1E167} = {6717EFB0-B310-C61B-083E-4EE8E5B43DB4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBF3CC5F-D29C-4DF2-937A-2E4B1143FC38}
+	EndGlobalSection
+EndGlobal
