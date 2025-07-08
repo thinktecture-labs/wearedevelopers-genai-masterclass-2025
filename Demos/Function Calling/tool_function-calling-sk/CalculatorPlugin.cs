@@ -6,9 +6,7 @@ namespace FunctionCallingWithSemanticKernel.Plugins;
 public class CalculatorPlugin
 {
     [KernelFunction, Description("Take the square root of a number")]
-    public static double Sqrt(
-        [Description("The number to take a square root of")] double number1
-    )
+    public static double Sqrt([Description("The number to take a square root of")] double number1)
     {
         Console.WriteLine($"Sqrt function called with parameter: number1 = {number1}");
         return Math.Sqrt(number1);
@@ -20,7 +18,9 @@ public class CalculatorPlugin
         [Description("The second number to add")] double number2
     )
     {
-        Console.WriteLine($"Add function called with parameters: number1 = {number1}, number2 = {number2}");
+        Console.WriteLine(
+            $"Add function called with parameters: number1 = {number1}, number2 = {number2}"
+        );
         return number1 + number2;
     }
 
@@ -30,17 +30,26 @@ public class CalculatorPlugin
         [Description("The second number to subtract away")] double number2
     )
     {
-        Console.WriteLine($"Subtract function called with parameters: number1 = {number1}, number2 = {number2}");
+        Console.WriteLine(
+            $"Subtract function called with parameters: number1 = {number1}, number2 = {number2}"
+        );
         return number1 - number2;
     }
 
-    [KernelFunction, Description("Multiply two numbers. When increasing by a percentage, don't forget to add 1 to the percentage.")]
+    [
+        KernelFunction,
+        Description(
+            "Multiply two numbers. When increasing by a percentage, don't forget to add 1 to the percentage."
+        )
+    ]
     public static double Multiply(
         [Description("The first number to multiply")] double number1,
         [Description("The second number to multiply")] double number2
     )
     {
-        Console.WriteLine($"Multiply function called with parameters: number1 = {number1}, number2 = {number2}");
+        Console.WriteLine(
+            $"Multiply function called with parameters: number1 = {number1}, number2 = {number2}"
+        );
         return number1 * number2;
     }
 
@@ -50,7 +59,9 @@ public class CalculatorPlugin
         [Description("The second number to divide by")] double number2
     )
     {
-        Console.WriteLine($"Divide function called with parameters: number1 = {number1}, number2 = {number2}");
+        Console.WriteLine(
+            $"Divide function called with parameters: number1 = {number1}, number2 = {number2}"
+        );
         return number1 / number2;
     }
 
@@ -60,7 +71,9 @@ public class CalculatorPlugin
         [Description("The power to raise the number to")] double number2
     )
     {
-        Console.WriteLine($"Power function called with parameters: number1 = {number1}, number2 = {number2}");
+        Console.WriteLine(
+            $"Power function called with parameters: number1 = {number1}, number2 = {number2}"
+        );
         return Math.Pow(number1, number2);
     }
 
@@ -70,7 +83,9 @@ public class CalculatorPlugin
         [Description("The base of the log")] double number2
     )
     {
-        Console.WriteLine($"Log function called with parameters: number1 = {number1}, number2 = {number2}");
+        Console.WriteLine(
+            $"Log function called with parameters: number1 = {number1}, number2 = {number2}"
+        );
         return Math.Log(number1, number2);
     }
 
@@ -80,7 +95,9 @@ public class CalculatorPlugin
         [Description("The number of decimal places to round to")] double number2
     )
     {
-        Console.WriteLine($"Round function called with parameters: number1 = {number1}, number2 = {number2}");
+        Console.WriteLine(
+            $"Round function called with parameters: number1 = {number1}, number2 = {number2}"
+        );
         return Math.Round(number1, (int)number2);
     }
 
@@ -94,72 +111,56 @@ public class CalculatorPlugin
     }
 
     [KernelFunction, Description("Take the floor of a number")]
-    public static double Floor(
-        [Description("The number to take the floor of")] double number1
-    )
+    public static double Floor([Description("The number to take the floor of")] double number1)
     {
         Console.WriteLine($"Floor function called with parameter: number1 = {number1}");
         return Math.Floor(number1);
     }
 
     [KernelFunction, Description("Take the ceiling of a number")]
-    public static double Ceiling(
-        [Description("The number to take the ceiling of")] double number1
-    )
+    public static double Ceiling([Description("The number to take the ceiling of")] double number1)
     {
         Console.WriteLine($"Ceiling function called with parameter: number1 = {number1}");
         return Math.Ceiling(number1);
     }
 
     [KernelFunction, Description("Take the sine of a number")]
-    public static double Sin(
-        [Description("The number to take the sine of")] double number1
-    )
+    public static double Sin([Description("The number to take the sine of")] double number1)
     {
         Console.WriteLine($"Sin function called with parameter: number1 = {number1}");
         return Math.Sin(number1);
     }
 
     [KernelFunction, Description("Take the cosine of a number")]
-    public static double Cos(
-        [Description("The number to take the cosine of")] double number1
-    )
+    public static double Cos([Description("The number to take the cosine of")] double number1)
     {
         Console.WriteLine($"Cos function called with parameter: number1 = {number1}");
         return Math.Cos(number1);
     }
 
     [KernelFunction, Description("Take the tangent of a number")]
-    public static double Tan(
-        [Description("The number to take the tangent of")] double number1
-    )
+    public static double Tan([Description("The number to take the tangent of")] double number1)
     {
         Console.WriteLine($"Tan function called with parameter: number1 = {number1}");
         return Math.Tan(number1);
     }
 
     [KernelFunction, Description("Take the arcsine of a number")]
-    public static double Asin(
-        [Description("The number to take the arcsine of")] double number1
-    )
+    public static double Asin([Description("The number to take the arcsine of")] double number1)
     {
         Console.WriteLine($"Asin function called with parameter: number1 = {number1}");
         return Math.Asin(number1);
     }
 
     [KernelFunction, Description("Take the arccosine of a number")]
-    public static double Acos(
-        [Description("The number to take the arccosine of")] double number1
-    )
+    public static double Acos([Description("The number to take the arccosine of")] double number1)
     {
         Console.WriteLine($"Acos function called with parameter: number1 = {number1}");
         return Math.Acos(number1);
     }
 
     [KernelFunction, Description("Take the arctangent of a number")]
-    public static double Atan(
-        [Description("The number to take the arctangent of")] double number1
-    )
+    public static double Atan([Description("The number to take the arctangent of")] double number1)
     {
         Console.WriteLine($"Atan function called with parameter: number1 = {number1}");
         return Math.Atan(number1);

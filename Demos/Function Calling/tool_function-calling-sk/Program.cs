@@ -1,15 +1,16 @@
-
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.ChatCompletion;
 using FunctionCallingWithSemanticKernel.Plugins;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 var openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
 
 var kernel = GetKernel();
 
 Console.WriteLine("Hello, I am an AI assistant that can answer simple math questions.");
-Console.WriteLine("Please ask me questions like \"What is 2 x 2\" or \"What is square root of 3\" etc.");
+Console.WriteLine(
+    "Please ask me questions like \"What is 2 x 2\" or \"What is square root of 3\" etc."
+);
 Console.WriteLine("To quit, simply type quit.");
 Console.WriteLine("");
 Console.WriteLine("Now ask me a math question...");
@@ -43,12 +44,15 @@ async Task<string> InvokeKernelFunctionAsync(string prompt)
         var chatHistory = new ChatHistory();
         chatHistory.AddUserMessage(prompt);
 
-        var result = await chatCompletionService.GetChatMessageContentAsync(chatHistory,
+        var result = await chatCompletionService.GetChatMessageContentAsync(
+            chatHistory,
             new OpenAIPromptExecutionSettings()
             {
                 ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
-                Temperature = 0
-            }, kernel);
+                Temperature = 0,
+            },
+            kernel
+        );
 
         return result.Content ?? "I'm sorry, but I couldn't generate a response.";
     }
@@ -62,8 +66,7 @@ async Task<string> InvokeKernelFunctionAsync(string prompt)
 
 Kernel GetKernel()
 {
-    var builder = Kernel.CreateBuilder()
-        .AddOpenAIChatCompletion("gpt-4o", openAiApiKey);
+    var builder = Kernel.CreateBuilder().AddOpenAIChatCompletion("gpt-4o", openAiApiKey);
 
     builder.Plugins.AddFromType<CalculatorPlugin>();
 

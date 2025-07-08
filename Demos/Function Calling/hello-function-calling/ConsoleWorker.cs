@@ -1,9 +1,9 @@
-using Azure.AI.OpenAI;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text.Json;
+using Azure.AI.OpenAI;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 public class ConsoleWorker : BackgroundService
 {
@@ -36,28 +36,42 @@ public class ConsoleWorker : BackgroundService
     private async Task DoLoopAsync(CancellationToken stoppingToken)
     {
         // create chat context and add system prompt
-        var chatCompletionsOptions = new ChatCompletionsOptions(_modelName, new [] {
-            new ChatRequestSystemMessage("Du bist ein freundlicher, fröhlicher Chat-Assistent."),
-            new ChatRequestSystemMessage($"Heute ist {DateTime.Now:D}."),
-        });
+        var chatCompletionsOptions = new ChatCompletionsOptions(
+            _modelName,
+            new[]
+            {
+                new ChatRequestSystemMessage("You are a friendly, helpful chat-assistant."),
+                new ChatRequestSystemMessage($"Heute ist {DateTime.Now:D}."),
+            }
+        );
 
         // TOOL 1: Use manual entry of the tool
-        chatCompletionsOptions.Tools.Add(new ChatCompletionsFunctionToolDefinition()
-        {
-            Name = "GetEmployeeId",
-            Description = "Get the employee id of a person",
-            Parameters = BinaryData.FromObjectAsJson(new {
-                Type = "object",
-                Properties = new {
-                    FullName = new {
-                        Type = "string",
-                        Description = "The full name of the person with first and last name",
+        chatCompletionsOptions.Tools.Add(
+            new ChatCompletionsFunctionToolDefinition()
+            {
+                Name = "GetEmployeeId",
+                Description = "Get the employee id of a person",
+                Parameters = BinaryData.FromObjectAsJson(
+                    new
+                    {
+                        Type = "object",
+                        Properties = new
+                        {
+                            FullName = new
+                            {
+                                Type = "string",
+                                Description = "The full name of the person with first and last name",
+                            },
+                        },
+                        Required = new[] { "FullName" },
+                    },
+                    new JsonSerializerOptions()
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                     }
-                },
-                Required = new [] { "FullName", },
-            },
-            new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, })
-        });
+                ),
+            }
+        );
 
         // TOOL 2: Use reflection to add another tool
         chatCompletionsOptions.Tools.Add(GetType().GetMethod("BookSlot")!.ToDefinition());
@@ -72,7 +86,8 @@ public class ConsoleWorker : BackgroundService
                 var input = Console.ReadLine();
 
                 // in case it's empty (enter, or ctrl-c), we just ignore it
-                if (String.IsNullOrEmpty(input)) continue;
+                if (String.IsNullOrEmpty(input))
+                    continue;
 
                 // add it to chat history
                 chatCompletionsOptions.Messages.Add(new ChatRequestUserMessage(input));
@@ -80,14 +95,19 @@ public class ConsoleWorker : BackgroundService
             wasToolCall = false;
 
             // get response from LLM
-            var response = await _openAIClient.GetChatCompletionsAsync(chatCompletionsOptions, stoppingToken);
+            var response = await _openAIClient.GetChatCompletionsAsync(
+                chatCompletionsOptions,
+                stoppingToken
+            );
             var responseChoice = response.Value.Choices[0];
 
             if (responseChoice.FinishReason == CompletionsFinishReason.ToolCalls)
             {
                 // add assistant message with tool call to chat history
-                chatCompletionsOptions.Messages.Add(new ChatRequestAssistantMessage(responseChoice.Message));
-                
+                chatCompletionsOptions.Messages.Add(
+                    new ChatRequestAssistantMessage(responseChoice.Message)
+                );
+
                 // perform the tool call and add response to message
                 foreach (var call in responseChoice.Message.ToolCalls)
                 {
@@ -116,19 +136,23 @@ public class ConsoleWorker : BackgroundService
         if (functionToolCall?.Name == "GetEmployeeId")
         {
             string unvalidatedArguments = functionToolCall.Arguments;
-            Console.WriteLine($"AI called function: {functionToolCall.Name} with arguments: {unvalidatedArguments}");
+            Console.WriteLine(
+                $"AI called function: {functionToolCall.Name} with arguments: {unvalidatedArguments}"
+            );
 
             return new ChatRequestToolMessage("Employee Id: 42", functionToolCall.Id);
         }
         else if (functionToolCall is not null)
         {
             // try to find a tool
-            var toolMethodInfo = this.GetType().GetMethods().FirstOrDefault(m => m.Name == functionToolCall.Name);
+            var toolMethodInfo = this.GetType()
+                .GetMethods()
+                .FirstOrDefault(m => m.Name == functionToolCall.Name);
             if (toolMethodInfo is not null && functionToolCall is not null)
             {
                 string unvalidatedArguments = functionToolCall.Arguments;
                 var arguments = JsonSerializer.Deserialize<JsonElement>(unvalidatedArguments);
-                
+
                 var parameters = new List<object>();
                 foreach (var parameter in toolMethodInfo.GetParameters())
                 {
@@ -147,21 +171,25 @@ public class ConsoleWorker : BackgroundService
         throw new NotImplementedException();
     }
 
-    [Description("Books a meeting slot for another employee at a given date for a given length of time.")]
+    [Description(
+        "Books a meeting slot for another employee at a given date for a given length of time."
+    )]
     public string BookSlot(
-        [Description("The employee id of the person to book a slot for.")]
-        int employeeId,
-
-        [Description("The title of the booking slot, Example: 'Meeting with John', 'Lunch with Customer'")]
-        string bookingReason,
-        
-        [Description("The datetime when the slot should start, in ISO 8601 format. Example: 2021-09-01T10:00:00+02:00")]
-        string startDate,
-        
-        [Description("The length of the slot in minutes.")]
-        int slotLength)
+        [Description("The employee id of the person to book a slot for.")] int employeeId,
+        [Description(
+            "The title of the booking slot, Example: 'Meeting with John', 'Lunch with Customer'"
+        )]
+            string bookingReason,
+        [Description(
+            "The datetime when the slot should start, in ISO 8601 format. Example: 2021-09-01T10:00:00+02:00"
+        )]
+            string startDate,
+        [Description("The length of the slot in minutes.")] int slotLength
+    )
     {
-        Console.WriteLine($"AI called function: {nameof(BookSlot)} with arguments: {employeeId}, {bookingReason}, {startDate}, {slotLength}");
+        Console.WriteLine(
+            $"AI called function: {nameof(BookSlot)} with arguments: {employeeId}, {bookingReason}, {startDate}, {slotLength}"
+        );
         return $"Booked '{bookingReason}' slot for employee {employeeId} on {startDate:D} for {slotLength} minutes.";
     }
 }
@@ -173,23 +201,31 @@ public static class ReflectionExtensions
         var toolDefinition = new ChatCompletionsFunctionToolDefinition()
         {
             Name = methodInfo.Name,
-            Description = methodInfo.GetCustomAttribute<DescriptionAttribute>()?.Description ?? methodInfo.Name,
+            Description =
+                methodInfo.GetCustomAttribute<DescriptionAttribute>()?.Description
+                ?? methodInfo.Name,
         };
 
         var parameters = methodInfo.GetParameters();
         if (parameters.Length > 0)
         {
-            toolDefinition.Parameters = BinaryData.FromObjectAsJson(new
-            {
-                Type = "object",
-                Properties = parameters.ToDictionary(p => p.Name!, p => new
+            toolDefinition.Parameters = BinaryData.FromObjectAsJson(
+                new
                 {
-                    Type = p.ParameterType.ToJsonSchemaType(),
-                    Description = p.GetCustomAttribute<DescriptionAttribute>()?.Description ?? p.Name,
-                }),
-                Required = parameters.Select(p => p.Name!).ToArray(),
-            },
-            new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, });
+                    Type = "object",
+                    Properties = parameters.ToDictionary(
+                        p => p.Name!,
+                        p => new
+                        {
+                            Type = p.ParameterType.ToJsonSchemaType(),
+                            Description = p.GetCustomAttribute<DescriptionAttribute>()?.Description
+                                ?? p.Name,
+                        }
+                    ),
+                    Required = parameters.Select(p => p.Name!).ToArray(),
+                },
+                new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }
+            );
         }
 
         return toolDefinition;
@@ -198,12 +234,18 @@ public static class ReflectionExtensions
     public static string ToJsonSchemaType(this Type type)
     {
         // capture most common types
-        if (type == typeof(int)) return "integer";
-        if (type == typeof(long)) return "integer";
-        if (type == typeof(float)) return "number";
-        if (type == typeof(double)) return "number";
-        if (type == typeof(decimal)) return "number";
-        if (type == typeof(bool)) return "boolean";
+        if (type == typeof(int))
+            return "integer";
+        if (type == typeof(long))
+            return "integer";
+        if (type == typeof(float))
+            return "number";
+        if (type == typeof(double))
+            return "number";
+        if (type == typeof(decimal))
+            return "number";
+        if (type == typeof(bool))
+            return "boolean";
 
         return "string";
     }
